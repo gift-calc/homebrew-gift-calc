@@ -1,0 +1,53 @@
+name: Update Formula
+
+on:
+  repository_dispatch:
+    types: [version_update]
+
+jobs:
+  update_formula:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      - name: Update formula
+        run: |
+          VERSION="${{ github.event.client_payload.version }}"
+          echo "Updating formula to version: $VERSION"
+          
+          # Download the package to get SHA256
+          curl -L -o package.tgz "https://registry.npmjs.org/gift-calc/-/gift-calc-${VERSION}.tgz"
+          SHA256=$(shasum -a 256 package.tgz | cut -d' ' -f1)
+          rm package.tgz
+          
+          echo "SHA256: $SHA256"
+          
+          # Update the formula file
+          sed -i "s|version \".*\"|version \"$VERSION\"|g" Formula/gift-calc.rb
+          sed -i "s|gift-calc-[0-9]\+\.[0-9]\+\.[0-9]\+\.tgz|gift-calc-$VERSION.tgz|g" Formula/gift-calc.rb
+          sed -i "s|sha256 \".*\"|sha256 \"$SHA256\"|g" Formula/gift-calc.rb
+          
+      - name: Configure git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+      
+      - name: Commit and push changes
+        run: |
+          VERSION="${{ github.event.client_payload.version }}"
+          
+          if ! git diff --quiet Formula/gift-calc.rb; then
+            git add Formula/gift-calc.rb
+            git commit -m "Update gift-calc to version $VERSION"
+            git push origin master
+            echo "Formula updated to version $VERSION"
+          else
+            echo "No changes needed"
+          fi
