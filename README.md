@@ -5,7 +5,7 @@ A Homebrew tap for the `gift-calc` CLI tool.
 ## Installation
 
 ```bash
-brew tap david-nossebro/gift-calc
+brew tap gift-calc/homebrew-gift-calc
 brew install gift-calc
 ```
 
@@ -22,4 +22,6 @@ gcalc -b 100 -v 30 -f 7
 
 `gift-calc` is a CLI tool that calculates gift amounts with configurable randomness and relationship-based bias. Perfect for when you need help deciding how much to spend on gifts!
 
-For more information, visit the [main repository](https://github.com/david-nossebro/gift-calc).
+For more information, visit:
+- **Website**: https://gift-calc.github.io
+- **GitHub**: https://github.com/gift-calc/gift-calc
