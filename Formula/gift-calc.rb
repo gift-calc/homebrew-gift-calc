@@ -1,9 +1,9 @@
 class GiftCalc < Formula
   desc "CLI tool that calculates gift amounts with configurable randomness"
   homepage "https://github.com/gift-calc/gift-calc"
-  url "https://registry.npmjs.org/gift-calc/-/gift-calc-1.3.2.tgz"
-  version "1.3.2"
-  sha256 "5f9950d402b3c061858209a66134a236fd673bdaef0f13711c406e9ec6343eb3"
+  url "https://registry.npmjs.org/gift-calc/-/gift-calc-1.4.0.tgz"
+  version "1.4.0"
+  sha256 "f0877541976abae2c6a9b3070190bc085de419197570d7944fc529fd2b8c2fa1"
   license "ISC"
 
   depends_on "node"
